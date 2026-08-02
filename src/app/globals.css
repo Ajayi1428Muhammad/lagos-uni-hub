@@ -1,0 +1,24 @@
+@import "tailwindcss";
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@theme {
+  --breakpoint-ms: 400px;
+  --breakpoint-ss: 560px;
+}
+/* Hide spinners in Chrome, Safari, Edge, and Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide spinners in Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
