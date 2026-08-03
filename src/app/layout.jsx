@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Lagos Uni Hub",
   description: "Building the future of campus marketplace",
+  verification: {
+    google: "PvLYFCZEqzTa1doOmnE3gS7O5OGhbqm24N17xOT9V7o",
+  },
 };
 
 export default async function RootLayout({ children }) {
