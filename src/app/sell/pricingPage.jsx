@@ -99,12 +99,14 @@ const ThemeDropdown = ({
 
 const PricingStep = ({
   listing = {},
+  errors,
   onBack = () => {},
   onContinue = () => {},
   onChange = () => {},
 }) => {
   const universityOptions = ["Unilag", "LASU", "Lasued", "Lasutech", "Caleb"];
   const pickupOptions = ["Library Gate", "Faculty Front", "Hostel Common Room"];
+  const [isLoading, setIsLoading] = useState(false);
 
   const campusRunnersByUniversity = {
     Unilag: ["Ayo", "Bola", "Tobi"],
@@ -180,6 +182,11 @@ const PricingStep = ({
           options={universityOptions}
           onChange={handleUniversityChange}
         />
+        {errors?.university && (
+          <p className="text-red-500 text-xs mt-1 font-medium">
+            {errors.university}
+          </p>
+        )}
 
         <ThemeDropdown
           label="Pickup Option"
@@ -188,6 +195,11 @@ const PricingStep = ({
           options={pickupOptions}
           onChange={(value) => onChange({ pickupOption: value })}
         />
+        {errors?.pickupOption && (
+          <p className="text-red-500 text-xs mt-1 font-medium">
+            {errors.pickupOption}
+          </p>
+        )}
 
         <ThemeDropdown
           label="Campus Runner"
@@ -199,17 +211,30 @@ const PricingStep = ({
           onChange={(value) => onChange({ campusRunner: value })}
           disabled={!university}
         />
+        {errors?.campusRunner && (
+          <p className="text-red-500 text-xs mt-1 font-medium">
+            {errors.campusRunner}
+          </p>
+        )}
       </div>
 
       <div className="mt-10 w-full border-t border-slate-100 p-4 ms:p-6">
         <button
           type="button"
+          disabled={isLoading}
           onClick={() => onContinue()}
           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2 ms:p-4 rounded-2xl flex items-center justify-center mx-auto gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-200 cursor-pointer max-w-md"
         >
-          <span className="text-xs ms:text-sm">
-            Continue to Review and Post
-          </span>
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Continuing...</span>
+            </>
+          ) : (
+            <span className="text-xs ms:text-sm">
+              Continue to Review and Post
+            </span>
+          )}
           <ChevronRightIcon className="w-5 h-5" />
         </button>
       </div>

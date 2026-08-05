@@ -15,29 +15,7 @@ const ReviewPostStep = ({
   onPost = () => {},
   onSaveDraft = () => {},
 }) => {
-  const validateListing = () => {
-    const missing = [];
-
-    if (!listing.mediaItems || listing.mediaItems.length === 0)
-      missing.push("media");
-    if (!listing.title || !String(listing.title).trim()) missing.push("title");
-    if (!listing.category || !String(listing.category).trim())
-      missing.push("category");
-    if (!listing.description || !String(listing.description).trim())
-      missing.push("description");
-
-    const priceNumber = Number(listing.price || 0);
-    if (!priceNumber || priceNumber <= 0) missing.push("price");
-    if (!listing.university || !String(listing.university).trim())
-      missing.push("university");
-    if (!listing.pickupOption || !String(listing.pickupOption).trim())
-      missing.push("pickup option");
-    if (!listing.campusRunner || !String(listing.campusRunner).trim())
-      missing.push("campus runner");
-
-    return missing;
-  };
-
+    const [isLoading, setIsLoading] = useState(false);
   const handleSaveDraftClick = async () => {
     const missing = validateListing();
 
@@ -55,16 +33,6 @@ const ReviewPostStep = ({
   };
 
   const handlePostClick = async () => {
-    const missing = validateListing();
-
-    if (missing.length > 0) {
-      const missingText = missing.join(", ");
-      toast.error(
-        `${missingText} is missing. Please complete all fields to post.`,
-      );
-      return;
-    }
-
     await onPost(listing);
   };
   const previewMedia = useMemo(() => {
@@ -82,19 +50,19 @@ const ReviewPostStep = ({
   }, [priceValue]);
 
   const detailRows = [
-    { label: "Title", value: listing.title || "Not provided" },
+    { label: "Title", value: listing.title },
     {
       label: "Description",
-      value: listing.description || "Not provided",
+      value: listing.description 
     },
-    { label: "Category", value: listing.category || "Not selected" },
+    { label: "Category", value: listing.category  },
     { label: "Price", value: formattedPrice },
     {
       label: "Target University Hub",
-      value: listing.university || "Not selected",
+      value: listing.university 
     },
-    { label: "Pickup Option", value: listing.pickupOption || "Not selected" },
-    { label: "Campus Runner", value: listing.campusRunner || "Not selected" },
+    { label: "Pickup Option", value: listing.pickupOption  },
+    { label: "Campus Runner", value: listing.campusRunner },
   ];
 
   return (
@@ -127,31 +95,20 @@ const ReviewPostStep = ({
       <div className="mt-8 space-y-5">
         <section className="overflow-hidden rounded-[1.75rem] border border-emerald-100 bg-white shadow-sm">
           <div className="relative bg-slate-950">
-            {previewMedia ? (
-              previewMedia.type?.startsWith("video/") ? (
-                <video
-                  src={previewMedia.url}
-                  className="h-80 w-full object-cover ms:h-112"
-                  muted
-                  playsInline
-                  controls
-                />
-              ) : (
-                <img
-                  src={previewMedia.url}
-                  alt={listing.title || "Listing preview"}
-                  className="h-80 w-full object-cover ms:h-112"
-                />
-              )
+            {previewMedia.type?.startsWith("video/") ? (
+              <video
+                src={previewMedia.url}
+                className="h-80 w-full object-cover ms:h-112"
+                muted
+                playsInline
+                controls
+              />
             ) : (
-              <div className="flex h-80 w-full items-center justify-center bg-linear-to-br from-emerald-950 via-slate-900 to-slate-800 ms:h-112">
-                <div className="text-center text-white/80">
-                  <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 backdrop-blur-sm">
-                    <PhotoIcon className="h-8 w-8" />
-                  </div>
-                  <p className="text-sm font-semibold">No media selected</p>
-                </div>
-              </div>
+              <img
+                src={previewMedia.url}
+                alt={listing.title}
+                className="h-80 w-full object-cover ms:h-112"
+              />
             )}
 
             <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-emerald-700/95 px-4 py-2 text-xs font-bold tracking-[0.18em] text-white shadow-lg shadow-emerald-950/20 backdrop-blur-sm">
@@ -253,7 +210,15 @@ const ReviewPostStep = ({
           onClick={handlePostClick}
           className="flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-5 py-4 mx-auto text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 active:scale-[0.99] max-w-md cursor-pointer"
         >
-          <span>Post to Marketplace</span>
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Posting...</span>
+            </>
+          ) : (
+            <span>Post to Marketplace</span>
+          )}
+
           <ArrowUpRightIcon className="h-5 w-5" />
         </button>
 
@@ -262,7 +227,14 @@ const ReviewPostStep = ({
           onClick={handleSaveDraftClick}
           className="flex w-full items-center justify-center mx-auto max-w-md gap-3 rounded-2xl border border-emerald-600 bg-white px-5 py-4 text-base font-bold text-emerald-700 transition-all duration-200 cursor-pointer hover:bg-emerald-50 active:scale-[0.99]"
         >
-          <span>Save as Draft</span>
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Saving...</span>
+            </>
+          ) : (
+            <span>Save as Draft</span>
+          )}
         </button>
       </div>
     </div>

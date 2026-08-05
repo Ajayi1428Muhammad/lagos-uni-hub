@@ -12,6 +12,7 @@ import {
 
 const CreateListing = ({
   listing = {},
+  errors,
   onChange = () => {},
   onContinue = () => {},
 }) => {
@@ -25,6 +26,7 @@ const CreateListing = ({
   ]);
   const [categoryQuery, setCategoryQuery] = useState(listing.category ?? "");
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const categoryWrapperRef = useRef(null);
   const mediaItems = listing.mediaItems ?? [];
   const photoCount = mediaItems.filter((item) =>
@@ -192,6 +194,11 @@ const CreateListing = ({
             onChange={addMedia}
             capture="environment"
           />
+          {errors?.mediaItems && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {errors.mediaItems}
+            </p>
+          )}
         </div>
 
         {mediaItems.length > 0 ? (
@@ -254,8 +261,15 @@ const CreateListing = ({
             placeholder="e.g. Hp elitebook 840 g3"
             value={listing.title ?? ""}
             onChange={(event) => onChange({ title: event.target.value })}
-            className="w-full bg-white border border-slate-100 rounded-2xl px-5 py-2 ms:py-4 text-xs ms:text-sm font-medium focus:ring-2 ring-emerald-500 outline-none shadow-sm"
+            className={`w-full bg-white  rounded-2xl px-5 py-2 ms:py-4 text-xs ms:text-sm font-medium  ring-emerald-500 outline-none shadow-sm
+              ${errors?.title ? "border border-red-500 focus:ring-1 focus:ring-red-500" : "border border-slate-100 focus:ring-2"}
+              `}
           />
+          {errors?.title && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {errors.title}
+            </p>
+          )}
         </div>
 
         {/* Price */}
@@ -272,9 +286,20 @@ const CreateListing = ({
               placeholder="0.00"
               value={listing.price ?? ""}
               onChange={(event) => onChange({ price: event.target.value })}
-              className="w-full bg-white border border-slate-100 rounded-2xl pl-10 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 ring-emerald-500 outline-none shadow-sm"
+              className={`w-full rounded-2xl pl-10 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
+                ${
+                  errors?.price
+                    ? "border border-red-500 focus:ring-1 focus:ring-red-500"
+                    : "border border-slate-100 focus:ring-2 ring-emerald-500"
+                }`}
             />
-          </div>
+            </div>
+            {errors?.price && (
+              <p className="text-red-500 text-xs mt-1 font-medium">
+                {" "}
+                {errors.price}{" "}
+              </p>
+            )}
         </div>
 
         {/* Category */}
@@ -296,8 +321,17 @@ const CreateListing = ({
                     onChange({ category: nextValue });
                     setCategoryOpen(true);
                   }}
-                  className="w-full rounded-2xl border border-slate-100 bg-white px-4 py-2 ms:py-4 pr-12 text-left text-xs ms:text-base font-medium text-slate-900 shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 ring-emerald-500"
+                  className={`w-full rounded-2xl bg-white px-4 py-2 ms:py-4 pr-12 text-left text-xs ms:text-base font-medium text-slate-900 shadow-sm transition-all duration-200 ring-emerald-500 ${
+                    errors?.category
+                      ? "border-red-500 focus:ring-1 focus:ring-red-500"
+                      : "border border-slate-100 focus:ring-2 focus:outline-none"
+                  }`}
                 />
+                {errors?.category && (
+                  <p className="text-red-500 text-xs mt-1 font-medium">
+                    {errors.category}
+                  </p>
+                )}
                 <button
                   type="button"
                   onClick={() => setCategoryOpen((current) => !current)}
@@ -376,18 +410,36 @@ const CreateListing = ({
             placeholder="Tell us about the condition, history, etc..."
             value={listing.description ?? ""}
             onChange={(event) => onChange({ description: event.target.value })}
-            className="w-full bg-white border border-slate-100 rounded-2xl px-5 py-2 ms:py-4 text-xs ms:text-sm font-medium focus:ring-2 ring-emerald-500 outline-none shadow-sm resize-none"
+            className={`w-full bg-white border border-slate-100 rounded-2xl px-5 py-2 ms:py-4 text-xs ms:text-sm font-medium focus:ring-2 ring-emerald-500 outline-none shadow-sm resize-none
+              ${
+                errors?.description
+                  ? "border-red-500 focus:ring-1 focus:ring-red-500"
+                  : "border border-slate-100 focus:ring-2 focus:outline-none"
+              }`}
           />
+          {errors?.description && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {errors.description}
+            </p>
+          )}
         </div>
       </div>
 
       <div className=" bottom w-full p-4 ms:p-6 border-t border-slate-100">
         <button
           type="button"
+          disabled={isLoading}
           onClick={() => onContinue()}
           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2 ms:p-4 rounded-2xl flex items-center justify-center mx-auto gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-200 cursor-pointer max-w-md"
         >
-          <span className="text-xs ms:text-sm">Continue to Pricing</span>
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Continuing...</span>
+            </>
+          ) : (
+            <span className="text-xs ms:text-sm">Continue to Pricing</span>
+          )}
           <ChevronRightIcon className="w-5 h-5" />
         </button>
       </div>

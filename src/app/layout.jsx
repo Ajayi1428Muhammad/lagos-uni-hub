@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Lagos Uni Hub",
-  description: "Building the future of campus marketplace",
+  description: "A marketplace for Lagos State students to buy and sell on campus.",
   verification: {
     google: "PvLYFCZEqzTa1doOmnE3gS7O5OGhbqm24N17xOT9V7o",
   },

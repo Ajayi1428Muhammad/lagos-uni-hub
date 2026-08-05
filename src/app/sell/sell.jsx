@@ -10,7 +10,9 @@ import { createListing, saveDraft } from "@/app/actions/listings";
 
 const SellPage = () => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(0);
+  const [errors, setErrors] = useState({});
   const [listing, setListing] = useState({
     id: null,
     mediaItems: [],
@@ -23,6 +25,7 @@ const SellPage = () => {
     campusRunner: "",
   });
   const mediaItemsRef = useRef(listing.mediaItems);
+
 
   const uploadMediaToCloudinary = async (mediaItem) => {
     if (!mediaItem?.file) {
@@ -58,7 +61,54 @@ const SellPage = () => {
       ...current,
       ...updates,
     }));
+    const updatedKeys = Object.keys(updates);
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      updatedKeys.forEach((key) => {
+        delete newErrors[key];
+      });
+      return newErrors;
+    });
   };
+
+  const validateCurrentStep = (currentStep) => {
+    const newErrors = {};
+    if (currentStep === 0) {
+      if (!listing.title.trim()) {
+        newErrors.title = "Title is required.";
+      }
+      if (!listing.description.trim()) {
+        newErrors.description = "Description is required.";
+      }
+      if (!listing.category.trim()) {
+        newErrors.category = "Category is required.";
+      }
+      if (!listing.price.trim()) {
+        newErrors.price = "Price is required.";
+      }
+      if (listing.mediaItems.length === 0) {
+        newErrors.mediaItems = "Upload at least one image or video.";
+      }
+    }
+    else if(currentStep === 1){
+      if(!listing.university.trim()){
+        newErrors.university = "University is required.";
+      }
+      if(!listing.pickupOption.trim()){
+        newErrors.pickupOption = "Pickup option is required.";
+      }
+      if(!listing.campusRunner.trim()){
+        newErrors.campusRunner = "Campus runner option is required.";
+      }
+    }
+    setErrors(newErrors); 
+    return Object.keys(newErrors).length === 0;
+  };
+  const handleContinue = () => {
+    if (validateCurrentStep(step)) {
+      setStep((prevStep) => prevStep + 1);
+    }
+  }
 
   const revokeLocalPreviews = (items = []) => {
     items.forEach((item) => {
@@ -138,19 +188,22 @@ const SellPage = () => {
       {step === 0 ? (
         <CreateListing
           listing={listing}
+          errors={errors}
           onChange={handleListingChange}
-          onContinue={() => setStep(1)}
+          onContinue={() => handleContinue()}
         />
       ) : step === 1 ? (
         <PricingStep
           listing={listing}
+          errors={errors}
           onBack={() => setStep(0)}
           onChange={handleListingChange}
-          onContinue={() => setStep(2)}
+          onContinue={() => handleContinue()}
         />
       ) : (
         <ReviewPostStep
           listing={listing}
+          errors={errors}
           onBack={() => setStep(1)}
           onPost={handlePostListing}
           onSaveDraft={handleSaveDraft}
