@@ -103,6 +103,7 @@ const PricingStep = ({
   onBack = () => {},
   onContinue = () => {},
   onChange = () => {},
+  isLoading = false,
 }) => {
   const universityOptions = ["Unilag", "LASU", "Lasued", "Lasutech", "Caleb"];
   const pickupOptions = ["Library Gate", "Faculty Front", "Hostel Common Room"];
@@ -167,6 +168,7 @@ const PricingStep = ({
               type="number"
               inputMode="decimal"
               value={price}
+              onWheel={(event) => event.currentTarget.blur()}
               onChange={(event) => onChange({ price: event.target.value })}
               placeholder="0.00"
               className="w-full border-0 bg-transparent text-3xl font-bold tracking-tight text-slate-900 placeholder:text-slate-400 focus:outline-none"
@@ -220,13 +222,12 @@ const PricingStep = ({
       <div className="mt-10 w-full border-t border-slate-100 p-4 ms:p-6">
         <button
           type="button"
-          disabled={isLoading}
           onClick={() => onContinue()}
           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2 ms:p-4 rounded-2xl flex items-center justify-center mx-auto gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-200 cursor-pointer max-w-md"
         >
-            <span className="text-xs ms:text-sm">
-              Continue to Review and Post
-            </span>
+          <span className="text-xs ms:text-sm">
+            Continue to Review and Post
+          </span>
           <ChevronRightIcon className="w-5 h-5" />
         </button>
       </div>

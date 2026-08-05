@@ -428,7 +428,6 @@ const CreateListing = ({
       <div className=" bottom w-full p-4 ms:p-6 border-t border-slate-100">
         <button
           type="button"
-          disabled={isLoading}
           onClick={() => onContinue()}
           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2 ms:p-4 rounded-2xl flex items-center justify-center mx-auto gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-200 cursor-pointer max-w-md"
         >
