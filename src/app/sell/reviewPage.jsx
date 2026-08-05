@@ -235,14 +235,7 @@ const ReviewPostStep = ({
           onClick={handleSaveDraftClick}
           className="flex w-full items-center justify-center mx-auto max-w-md gap-3 rounded-2xl border border-emerald-600 bg-white px-5 py-4 text-base font-bold text-emerald-700 transition-all duration-200 cursor-pointer hover:bg-emerald-50 active:scale-[0.99]"
         >
-          {isLoading ? (
-            <>
-              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
-              <span>Saving...</span>
-            </>
-          ) : (
             <span>Save as Draft</span>
-          )}
         </button>
       </div>
     </div>
