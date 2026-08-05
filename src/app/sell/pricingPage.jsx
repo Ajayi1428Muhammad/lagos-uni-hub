@@ -106,7 +106,6 @@ const PricingStep = ({
 }) => {
   const universityOptions = ["Unilag", "LASU", "Lasued", "Lasutech", "Caleb"];
   const pickupOptions = ["Library Gate", "Faculty Front", "Hostel Common Room"];
-  const [isLoading, setIsLoading] = useState(false);
 
   const campusRunnersByUniversity = {
     Unilag: ["Ayo", "Bola", "Tobi"],
@@ -225,16 +224,9 @@ const PricingStep = ({
           onClick={() => onContinue()}
           className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2 ms:p-4 rounded-2xl flex items-center justify-center mx-auto gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-200 cursor-pointer max-w-md"
         >
-          {isLoading ? (
-            <>
-              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
-              <span>Continuing...</span>
-            </>
-          ) : (
             <span className="text-xs ms:text-sm">
               Continue to Review and Post
             </span>
-          )}
           <ChevronRightIcon className="w-5 h-5" />
         </button>
       </div>
