@@ -15,6 +15,7 @@ const ReviewPostStep = ({
   onPost = () => {},
   onSaveDraft = () => {},
 }) => {
+    const [isLoading, setIsLoading] = useState(false);
   const handleSaveDraftClick = async () => {
     const missing = validateListing();
 
@@ -217,7 +218,15 @@ const ReviewPostStep = ({
           onClick={handlePostClick}
           className="flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-5 py-4 mx-auto text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 active:scale-[0.99] max-w-md cursor-pointer"
         >
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Posting...</span>
+            </>
+          ) : (
             <span>Post to Marketplace</span>
+          )}
+
           <ArrowUpRightIcon className="h-5 w-5" />
         </button>
 
@@ -225,8 +234,15 @@ const ReviewPostStep = ({
           type="button"
           onClick={handleSaveDraftClick}
           className="flex w-full items-center justify-center mx-auto max-w-md gap-3 rounded-2xl border border-emerald-600 bg-white px-5 py-4 text-base font-bold text-emerald-700 transition-all duration-200 cursor-pointer hover:bg-emerald-50 active:scale-[0.99]"
-        >      
+        >
+          {isLoading ? (
+            <>
+              <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full inline-block" />
+              <span>Saving...</span>
+            </>
+          ) : (
             <span>Save as Draft</span>
+          )}
         </button>
       </div>
     </div>
