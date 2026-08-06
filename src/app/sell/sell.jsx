@@ -8,6 +8,8 @@ import PricingStep from "@/app/sell/pricingPage";
 import ReviewPostStep from "@/app/sell/reviewPage";
 import { createListing, saveDraft } from "@/app/actions/listings";
 
+const MAX_MEDIA_SIZE_BYTES = 25 * 1024 * 1024;
+
 const SellPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -26,33 +28,76 @@ const SellPage = () => {
   });
   const mediaItemsRef = useRef(listing.mediaItems);
 
-
   const uploadMediaToCloudinary = async (mediaItem) => {
     if (!mediaItem?.file) {
       return mediaItem;
     }
 
+    if (mediaItem.file.size > MAX_MEDIA_SIZE_BYTES) {
+      throw new Error(
+        `${mediaItem.file.name} is too large. Maximum allowed size is 25MB.`,
+      );
+    }
+
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+    if (!cloudName || !uploadPreset) {
+      throw new Error("Cloudinary environment variables are missing.");
+    }
+
     const uploadFormData = new FormData();
     uploadFormData.append("file", mediaItem.file);
+    uploadFormData.append("upload_preset", uploadPreset);
 
-    const response = await fetch("/api/cloudinary/upload", {
-      method: "POST",
-      body: uploadFormData,
-    });
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+      {
+        method: "POST",
+        body: uploadFormData,
+      },
+    );
 
-    const payload = await response.json();
-    //
+    const responseText = await response.text();
+    const responseIsJson = (response.headers.get("content-type") || "")
+      .toLowerCase()
+      .includes("application/json");
+
+    let payload = null;
+    if (responseIsJson && responseText) {
+      try {
+        payload = JSON.parse(responseText);
+      } catch {
+        payload = null;
+      }
+    }
+
     if (!response.ok) {
-      throw new Error(payload?.error || "Cloudinary upload failed.");
+      const cloudinaryError =
+        payload?.error?.message ||
+        payload?.error ||
+        (response.status === 413 ||
+        /request entity too large/i.test(responseText)
+          ? "Upload is too large. Maximum allowed size is 25MB."
+          : null);
+
+      throw new Error(
+        cloudinaryError ||
+          `Cloudinary upload failed (${response.status}). Please try again.`,
+      );
+    }
+
+    if (!payload) {
+      throw new Error("Upload failed: received an invalid response.");
     }
 
     return {
-      id: payload.publicId,
+      id: payload.public_id,
       fileName: mediaItem.fileName ?? mediaItem.file?.name ?? "media",
-      url: payload.url,
+      url: payload.secure_url,
       type: mediaItem.type,
-      publicId: payload.publicId,
-      resourceType: payload.resourceType,
+      publicId: payload.public_id,
+      resourceType: payload.resource_type,
     };
   };
 
@@ -89,26 +134,25 @@ const SellPage = () => {
       if (listing.mediaItems.length === 0) {
         newErrors.mediaItems = "Upload at least one image or video.";
       }
-    }
-    else if(currentStep === 1){
-      if(!listing.university.trim()){
+    } else if (currentStep === 1) {
+      if (!listing.university.trim()) {
         newErrors.university = "University is required.";
       }
-      if(!listing.pickupOption.trim()){
+      if (!listing.pickupOption.trim()) {
         newErrors.pickupOption = "Pickup option is required.";
       }
-      if(!listing.campusRunner.trim()){
+      if (!listing.campusRunner.trim()) {
         newErrors.campusRunner = "Campus runner option is required.";
       }
     }
-    setErrors(newErrors); 
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
   const handleContinue = () => {
     if (validateCurrentStep(step)) {
       setStep((prevStep) => prevStep + 1);
     }
-  }
+  };
 
   const revokeLocalPreviews = (items = []) => {
     items.forEach((item) => {
@@ -136,6 +180,16 @@ const SellPage = () => {
 
   const handlePostListing = async (currentListing) => {
     try {
+      const oversizedMedia = (currentListing.mediaItems ?? []).find(
+        (item) => item?.file && item.file.size > MAX_MEDIA_SIZE_BYTES,
+      );
+
+      if (oversizedMedia?.file?.name) {
+        throw new Error(
+          `${oversizedMedia.file.name} is too large. Maximum allowed size is 25MB.`,
+        );
+      }
+
       const uploadedMediaItems = await Promise.all(
         (currentListing.mediaItems ?? []).map((mediaItem) =>
           uploadMediaToCloudinary(mediaItem),

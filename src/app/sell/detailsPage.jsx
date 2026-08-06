@@ -9,6 +9,9 @@ import {
   ChevronRightIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { toast } from "react-toastify";
+
+const MAX_MEDIA_SIZE_BYTES = 25 * 1024 * 1024;
 
 const CreateListing = ({
   listing = {},
@@ -50,10 +53,16 @@ const CreateListing = ({
     const hasVideo = mediaItems.some((item) => item.type.startsWith("video/"));
 
     const validFiles = [];
+    const oversizedFiles = [];
     let photoCount = existingPhotoCount;
     let videoAdded = hasVideo;
 
     selectedFiles.forEach((file) => {
+      if (file.size > MAX_MEDIA_SIZE_BYTES) {
+        oversizedFiles.push(file.name || "One selected file");
+        return;
+      }
+
       const isImage = file.type.startsWith("image/");
       const isVideo = file.type.startsWith("video/");
 
@@ -67,6 +76,14 @@ const CreateListing = ({
         videoAdded = true;
       }
     });
+
+    if (oversizedFiles.length > 0) {
+      const prefix =
+        oversizedFiles.length === 1
+          ? oversizedFiles[0]
+          : `${oversizedFiles.length} files`;
+      toast.error(`${prefix} exceed the 25MB upload limit.`);
+    }
 
     if (!validFiles.length) {
       event.target.value = "";
@@ -181,7 +198,7 @@ const CreateListing = ({
                 Add Photos or Video
               </p>
               <p className="text-[10px] ms:text-xs text-slate-400 mt-1">
-                Up to 5 images and 1 video
+                Up to 5 images and 1 video (max 25MB per file)
               </p>
             </div>
           </button>
@@ -293,13 +310,13 @@ const CreateListing = ({
                     : "border border-slate-100 focus:ring-2 ring-emerald-500"
                 }`}
             />
-            </div>
-            {errors?.price && (
-              <p className="text-red-500 text-xs mt-1 font-medium">
-                {" "}
-                {errors.price}{" "}
-              </p>
-            )}
+          </div>
+          {errors?.price && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {" "}
+              {errors.price}{" "}
+            </p>
+          )}
         </div>
 
         {/* Category */}
