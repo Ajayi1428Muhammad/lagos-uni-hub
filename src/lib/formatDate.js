@@ -17,6 +17,6 @@
   if (Math.abs(days) > 0) return `${days}d ago`;
   if (Math.abs(hrs) > 0) return `${hrs}h ago`;
   if (Math.abs(mins) > 0) return `${mins}m ago`;
-  return `${diffSec}s ago`;
+  return `Just now`;
 };
 export default getTime;

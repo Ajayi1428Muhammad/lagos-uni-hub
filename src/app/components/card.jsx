@@ -22,7 +22,7 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
     if (!val && val !== 0) return "";
     const n = Number(val);
     if (Number.isNaN(n)) return val;
-    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN" })}`;
+    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0, notation: "compact" })}`;
   };
   return (
     <div className="break-inside-avoid mb-3 bg-white rounded-xl border border-slate-100 shadow-lg overflow-hidden transition-transform duration-700 hover:scale-102 cursor-pointer">

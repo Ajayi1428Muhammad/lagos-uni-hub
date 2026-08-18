@@ -16,12 +16,12 @@ const ListingDetails = ({ listing }) => {
 
   const options = { month: "short", day:"numeric", year:"numeric",};
   const timeTest = new Date(timeCreated).toLocaleString();
-  
+
   const formatPrice = (val) => {
     if (!val && val !== 0) return "";
     const n = Number(val);
     if (Number.isNaN(n)) return val;
-    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN" })}`;
+    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0})}`;
   };
   const [isOpen, setIsOpen] =useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Choose a location");
@@ -42,17 +42,17 @@ const ListingDetails = ({ listing }) => {
     
   },[])
   return (
-    <div className="relative bg-slate-200 h-120 rounded-lg p-4 py-6 overflow-y-auto">
+    <div className="relative flex flex-col bg-slate-200 h-120 rounded-lg p-4 py-6 overflow-y-auto no-scrollbar">
       <button className="absolute top-6 right-2 p-2.5 rounded-full bg-white/40 backdrop-blur-xl hover:bg-white/60 transition-all border border-white/20 cursor-pointer">
         <HeartIconSolid className="h-3.5 w-3.5 text-slate-900" />
       </button>
       <div className="font-bold text-lg mb-2">{title}</div>
       <div className="flex justify-between mb-4">
         <div className="flex items-center gap-1">
-          <div className="text-sm text-slate-600">{brand} </div>
+          <div className="text-sm text-slate-600">Brand: {brand} </div>
           <ChevronRightIcon className="h-4 w-4 " />
         </div>
-        <div className="text-xs text-slate-600 capitalize">{timestamp}</div>
+        <div className="text-xs text-slate-600 ">{timestamp}</div>
       </div>
       <div className="text-lg font-bold">{formatPrice(price)}</div>
       <div className="text-sm text-slate-600">0 Units left</div>
@@ -80,7 +80,7 @@ const ListingDetails = ({ listing }) => {
           )}
         </button>
         {isOpen && (
-          <div className="absolute top-full left-0 mt-2 bg-slate-300 rounded-2xl border border-slate-300 shadow-lg z-20 overflow-hidden">
+          <div className="absolute top-full left-0 mt-2 bg-slate-300 rounded-2xl border border-slate-300 shadow-lg z-50 overflow-hidden">
             {locations.map((location) => (
               <button
                 type="button"
@@ -97,9 +97,12 @@ const ListingDetails = ({ listing }) => {
           </div>
         )}
       </div>
-      <div className="flex justify-between px-5  absolute bottom-0 left-0 right-0 mb-4 ">
-        <div className="bg-emerald-600 p-4 rounded-lg font-bold">Buy Now</div>
-        <div className="flex items-center p-4 rounded-lg gap-1 bg-emerald-600">
+      <div className="mb-3 mt-4">{description} </div>
+      <div className="flex justify-between px-5 mb-1 cursor-pointer ">
+        <div className="bg-emerald-600 hover:bg-emerald-700 transition-colors duration-300 ease-in-out delay-150 p-4 rounded-lg font-bold">
+          Buy Now
+        </div>
+        <div className="flex items-center p-4 rounded-lg gap-1 bg-emerald-600 hover:bg-emerald-700 duration-800 ease-in-out delay-150 transition-colors">
           <ShoppingCartIcon className="h-4 w-4 " />
           <div className="font-bold  ">Add to Cart </div>
         </div>
