@@ -2,8 +2,10 @@ import Card from "@/app/components/card";
 import Header from "@/app/components/header";
 import ScrollCard from "@/app/components/scrollCard";
 import prisma from "@/lib/prisma";
-import pg from "pg";
 import { auth } from "@/auth";
+import Link from "next/link";
+import pg from "pg";
+
 
 export const dynamic = "force-dynamic";
 
@@ -135,9 +137,7 @@ export default async function Page({ searchParams }) {
           <p className="text-xs text-gray-500 uppercase tracking-widest font-semibold mb-1">
             Search results
           </p>
-          <h1 className="text-2xl font-bold text-gray-900">
-            {query}
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900">{query}</h1>
           {gridListings.length > 0 && (
             <p className="mt-1 text-sm text-gray-500">
               {gridListings.length} listing
@@ -151,7 +151,9 @@ export default async function Page({ searchParams }) {
       {gridListings.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {gridListings.map((listing) => (
-            <Card key={listing.id} listing={listing} />
+            <Link href={`/listings/${listing.id}`} key={listing.id}>
+              <Card listing={listing} />
+            </Link>
           ))}
         </div>
       ) : (
@@ -162,9 +164,11 @@ export default async function Page({ searchParams }) {
                 No listings found for {query};
               </p>
               <p className="mt-2 text-sm">
-                Try different keywords, check your spelling, or <a href="/" className="text-blue-500 hover:underline">
-                  browse 
-                </a> all listings.
+                Try different keywords, check your spelling, or{" "}
+                <a href="/" className="text-blue-500 hover:underline">
+                  browse
+                </a>{" "}
+                all listings.
               </p>
             </>
           ) : (
@@ -183,7 +187,9 @@ export default async function Page({ searchParams }) {
       {!isSearching && scrollListings.length > 0 && (
         <div className="mt-5 mb-5 flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 items-center">
           {scrollListings.map((listing) => (
-            <ScrollCard key={listing.id} listing={listing} />
+            <Link href={`/listings/${listing.id}`} key={listing.id}>
+            <ScrollCard listing={listing} />
+            </Link>
           ))}
         </div>
       )}

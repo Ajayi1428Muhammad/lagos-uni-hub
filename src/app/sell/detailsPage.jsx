@@ -344,11 +344,6 @@ const CreateListing = ({
                       : "border border-slate-100 focus:ring-2 focus:outline-none"
                   }`}
                 />
-                {errors?.category && (
-                  <p className="text-red-500 text-xs mt-1 font-medium">
-                    {errors.category}
-                  </p>
-                )}
                 <button
                   type="button"
                   onClick={() => setCategoryOpen((current) => !current)}
@@ -415,6 +410,11 @@ const CreateListing = ({
               <PlusIcon className="h-5 w-5" />
             </button>
           </div>
+            {errors?.category && (
+              <p className="text-red-500 text-xs mt-1 font-medium">
+                {errors.category}
+              </p>
+            )}
         </div>
 
         {/* Description */}

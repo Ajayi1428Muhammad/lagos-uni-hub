@@ -4,6 +4,7 @@ import {
   PlusIcon,
   AdjustmentsHorizontalIcon,
   ChevronDownIcon,
+  ChevronUpIcon,
   MapPinIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
@@ -58,7 +59,7 @@ const Header = () => {
           >
             <MapPinIcon className="h-4 w-4" />
             <span>{selectedUniversity}</span>
-            <ChevronDownIcon className="h-4 w-4" />
+            {dropdownOpen ? <ChevronUpIcon className="h-4 w-4" />: <ChevronDownIcon className="h-4 w-4" />}
           </button>
 
           {dropdownOpen && (
