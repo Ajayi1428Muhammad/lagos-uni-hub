@@ -21,6 +21,7 @@ const normalizeListingData = (listing = {}) => ({
             (url.startsWith("http://") || url.startsWith("https://")),
         )
     : [],
+  stock: Number(listing.stock) || 1,
 });
 
 export async function createListing(listing = {}) {

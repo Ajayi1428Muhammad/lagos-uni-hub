@@ -178,6 +178,7 @@ const SellPage = () => {
       university: "",
       pickupOption: "",
       campusRunner: "",
+      stock: "",
     });
     setStep(0);
   };
