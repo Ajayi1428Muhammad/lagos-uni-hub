@@ -20,6 +20,7 @@ const SellPage = () => {
     mediaItems: [],
     title: "",
     price: "",
+    stock: "",
     description: "",
     category: "",
     university: "",
@@ -130,6 +131,9 @@ const SellPage = () => {
       }
       if (!listing.price.trim()) {
         newErrors.price = "Price is required.";
+      }
+      if (!listing.stock.trim()) {
+        newErrors.stock = "Stock is required.";
       }
       if (listing.mediaItems.length === 0) {
         newErrors.mediaItems = "Upload at least one image or video.";

@@ -31,6 +31,8 @@ const Footer = () => {
 
     return pathname === href || pathname.startsWith(`${href}/`);
   };
+  const isDetailsPage = /^\/listings\/[^\/]+$/.test(pathname)
+  if(isDetailsPage) return null;
 
   return (
     <footer className="flex fixed bottom-0 h-17 items-center justify-between border-t border-green-200 w-full bg-white mx-auto px-4 ">

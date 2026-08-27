@@ -1,6 +1,6 @@
 import {
   PhotoIcon,
-  ShoppingBagIcon,
+  PlayIcon,
   ShoppingCartIcon,
   VideoCameraIcon,
 } from "@heroicons/react/24/outline";
@@ -68,12 +68,9 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
 
         {/* Video/Timestamp Indicator */}
         {previewUrl && isVideo && (
-          <div className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-lg px-2 py-1 rounded-lg flex items-center gap-2">
+          <div className="absolute bottom-3 right-3 bg-black/40 backdrop-blur-lg px-2 py-1 rounded-full h-8 w-8 flex items-center justify-center gap-2">
             <>
-              <VideoCameraIcon className="h-2 w-2  text-white" />
-              <span className="text-[8px]  text-white font-bold uppercase tracking-tighter">
-                0:24
-              </span>
+              <PlayIcon className="h-5 w-5 stroke-3  text-white" />
             </>
           </div>
         )}

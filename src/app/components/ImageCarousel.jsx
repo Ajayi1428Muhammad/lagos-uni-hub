@@ -1,31 +1,31 @@
-"use client"
-import Image from "next/image"
-import { XMarkIcon } from "@heroicons/react/24/outline"
-import { useState, useRef, useEffect } from "react"
+"use client";
+import Image from "next/image";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useState, useRef, useEffect } from "react";
 
-const ImageCarousel = ({ listing }) => {
+const ImageCarousel = ({ listing, isSeller }) => {
   const rawMediaUrls = listing.mediaUrls ?? [];
   const formattedMediaUrls = rawMediaUrls.map((url) => {
-    const cleanUrl = url.toLowerCase()
-    const cloudUrl = cleanUrl.includes("/video/upload")
-    const mediaUrl = typeof url === "string" &&
-  /\.(mp4|mov|webm|mkv|avi|m4v)(\?.*)?$/i.test(url);
-    const isVideo = cloudUrl || mediaUrl
-  return {
-    url: url,
-    type: isVideo ? "video" : "image"
-  }
-})
-  
+    const cleanUrl = url.toLowerCase();
+    const cloudUrl = cleanUrl.includes("/video/upload");
+    const mediaUrl =
+      typeof url === "string" &&
+      /\.(mp4|mov|webm|mkv|avi|m4v)(\?.*)?$/i.test(url);
+    const isVideo = cloudUrl || mediaUrl;
+    return {
+      url: url,
+      type: isVideo ? "video" : "image",
+    };
+  });
 
-  const [selectedIndex, setSelectedIndex] = useState(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [overlaySlideIndex, setOverlaySlideIndex] = useState(0)
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [overlaySlideIndex, setOverlaySlideIndex] = useState(0);
   //Refs
   const inlineVideosRef = useRef([]);
   const overlayVideosRef = useRef([]);
   const slideRefs = useRef([]);
-  const slideOpenRef = useRef([])
+  const slideOpenRef = useRef([]);
 
   //Observers
   useEffect(() => {
@@ -47,28 +47,28 @@ const ImageCarousel = ({ listing }) => {
     return () => observer.disconnect();
   }, [formattedMediaUrls.length]);
 
-  useEffect(()=>{
-    if(selectedIndex === null) return
+  useEffect(() => {
+    if (selectedIndex === null) return;
     const slideOverlay = slideOpenRef.current;
     const observer = new IntersectionObserver(
-      (entries)=>{
-        entries.forEach((entry)=>{
-          if(entry.isIntersecting){
-            const index = Number(entry.target.getAttribute('data-index'))
-            setOverlaySlideIndex(index)
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute("data-index"));
+            setOverlaySlideIndex(index);
           }
-        })
+        });
       },
-      {threshold: 0.6}
-    )
-    slideOverlay.forEach((slide)=>{
-      if(slide){
-        observer.observe(slide)
+      { threshold: 0.6 },
+    );
+    slideOverlay.forEach((slide) => {
+      if (slide) {
+        observer.observe(slide);
       }
-    })
+    });
     return () => observer.disconnect();
-  }, [selectedIndex,formattedMediaUrls.length])
-  
+  }, [selectedIndex, formattedMediaUrls.length]);
+
   //handling esc key and scrolling to selected slide
   useEffect(() => {
     if (selectedIndex !== null && slideOpenRef.current[selectedIndex]) {
@@ -83,42 +83,42 @@ const ImageCarousel = ({ listing }) => {
         setSelectedIndex(null);
       }
     };
-    if(selectedIndex !== null) {
-    window.addEventListener("keydown", handleKeyDown);
+    if (selectedIndex !== null) {
+      window.addEventListener("keydown", handleKeyDown);
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-    }
+    };
   }, [selectedIndex]);
-  
-  // Pause inline videos when not active and modal open
-  useEffect(()=>{
-    inlineVideosRef.current.forEach((video, index) => {
-      if(video && index !== activeIndex || selectedIndex !== null){
-        if(typeof video?.pause === "function"){
-          video.pause()
-        }
-      }
-    })
-  }, [selectedIndex, activeIndex]) 
 
-// pause when overlay is closed and unactive slide
-  useEffect(()=>{
-    overlayVideosRef.current.forEach((video, index)=>{
-      if(video && index !== selectedIndex){
-        video.pause()
-      }
-      if(index !== overlaySlideIndex || selectedIndex === null){
-        if(typeof video?.pause === "function"){
-          video.pause()
+  // Pause inline videos when not active and modal open
+  useEffect(() => {
+    inlineVideosRef.current.forEach((video, index) => {
+      if ((video && index !== activeIndex) || selectedIndex !== null) {
+        if (typeof video?.pause === "function") {
+          video.pause();
         }
       }
-        inlineVideosRef.current.forEach((video) => {
-          video?.pause();
-        });
-    })
-  }, [selectedIndex, overlaySlideIndex]) 
-  
+    });
+  }, [selectedIndex, activeIndex]);
+
+  // pause when overlay is closed and unactive slide
+  useEffect(() => {
+    overlayVideosRef.current.forEach((video, index) => {
+      if (video && index !== selectedIndex) {
+        video.pause();
+      }
+      if (index !== overlaySlideIndex || selectedIndex === null) {
+        if (typeof video?.pause === "function") {
+          video.pause();
+        }
+      }
+      inlineVideosRef.current.forEach((video) => {
+        video?.pause();
+      });
+    });
+  }, [selectedIndex, overlaySlideIndex]);
+
   return (
     <>
       <div className="relative flex overflow-x-auto gap-1 no-scrollbar snap-mandatory snap-x h-120 sm:max-h-125 overflow-y-hidden ">
@@ -196,7 +196,7 @@ const ImageCarousel = ({ listing }) => {
                       src={item.url}
                       alt={`Full size view ${index + 1}`}
                       fill
-                      className="object-contain"
+                      className="object-contain w-auto h-auto"
                     />
                   )}
                 </div>
@@ -207,6 +207,6 @@ const ImageCarousel = ({ listing }) => {
       </div>
     </>
   );
-}
+};
 
-export default ImageCarousel
+export default ImageCarousel;

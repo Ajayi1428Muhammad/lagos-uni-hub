@@ -8,10 +8,15 @@ import SearchBar from "@/app/components/SearchBar";
 import NotificationIcon from "@/app/components/Notification";
 import ProfileIcon from "./components/Profile";
 import Link from "next/link";
+import {useRouter} from "next/navigation"
 
 const Navbar = ({session}) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
+  const router = useRouter();
+  const handleDashboardClick = () => {
+    router.push("/dashboard");
+  };
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
@@ -51,9 +56,10 @@ const Navbar = ({session}) => {
       {/* Right: Notification and Profile */}
       <div className="flex shrink-0 items-center gap-1 ms:gap-2 md:gap-4">
         <NotificationIcon />
-        <Link href="/dashboard">
           {session?.user?.image ? (
-            <div className="w-9 h-9 rounded-full overflow-hidden border border-gray-200">
+            <div className="w-9 h-9 rounded-full overflow-hidden border border-gray-200 cursor-pointer " 
+            onClick={handleDashboardClick}
+            >
               <img
                 src={session.user.image}
                 alt={session.user.name || "User profile"}
@@ -66,7 +72,6 @@ const Navbar = ({session}) => {
               {/* Default structural profile icon */}
             </div>
           )}
-        </Link>
       </div>
     </motion.nav>
   );

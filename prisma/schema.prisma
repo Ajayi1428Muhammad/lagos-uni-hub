@@ -27,6 +27,7 @@ model Listings{
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
   category           String
+  stock                Int            @default(1)
 
   @@index([university])
   @@index([title])

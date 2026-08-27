@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Card from "@/app/components/card";
 import { Grid, Bookmark, Contact2, PlaySquare } from "lucide-react";
+import Link from "next/link"
 import { div } from "framer-motion/client";
 
 export default function ProfileTabs({ listings }) {
@@ -68,7 +69,9 @@ export default function ProfileTabs({ listings }) {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                 {photoListings.map((listing) => (
-                  <Card key={listing.id} listing={listing} />
+                  <Link key={listing.id} href={`/listings/${listing.id}`}>
+                    <Card listing={listing} />
+                  </Link>
                 ))}
               </div>
             )}
@@ -84,7 +87,9 @@ export default function ProfileTabs({ listings }) {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                 {videoListings.map((listing) => (
-                  <Card key={listing.id} listing={listing} />
+                  <Link key={listing.id} href={`/listings/${listing.id}`}>
+                    <Card listing={listing} />
+                  </Link>
                 ))}
               </div>
             )}

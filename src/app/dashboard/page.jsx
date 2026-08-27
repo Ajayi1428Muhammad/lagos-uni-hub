@@ -10,12 +10,14 @@ const Dashboard = async () => {
   if(!session){
     redirect("/signin?callbackUrl=/dashboard")
   }
-  const userListings = await prisma.listings.findMany(
-    { where: { userId: session.user.id } }
-  )
+  const userListings = await prisma.listings.findMany({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "desc" },
+  });
   const listingsCount = await prisma.listings.count({
     where: { userId: session.user.id }
   });
+  
   return (
     <div className="w-[80%] mx-auto mt-6 ">
       <UserProfile user={session.user} listingsCount={listingsCount} />

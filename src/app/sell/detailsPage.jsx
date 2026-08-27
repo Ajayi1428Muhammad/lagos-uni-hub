@@ -318,6 +318,32 @@ const CreateListing = ({
             </p>
           )}
         </div>
+        {/* Stock */}
+        <div>
+          <label className="block text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">
+            Stock
+          </label>
+          <div className="relative">
+            <input
+              type="number"
+              placeholder="0.00"
+              value={listing.stock ?? ""}
+              onChange={(event) => onChange({ stock: event.target.value })}
+              className={`w-full rounded-2xl pl-5 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
+                ${
+                  errors?.stock
+                    ? "border border-red-500 focus:ring-1 focus:ring-red-500"
+                    : "border border-slate-100 focus:ring-2 ring-emerald-500"
+                }`}
+            />
+          </div>
+          {errors?.stock && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {" "}
+              {errors.stock}{" "}
+            </p>
+          )}
+        </div>
 
         {/* Category */}
         <div>
@@ -410,11 +436,11 @@ const CreateListing = ({
               <PlusIcon className="h-5 w-5" />
             </button>
           </div>
-            {errors?.category && (
-              <p className="text-red-500 text-xs mt-1 font-medium">
-                {errors.category}
-              </p>
-            )}
+          {errors?.category && (
+            <p className="text-red-500 text-xs mt-1 font-medium">
+              {errors.category}
+            </p>
+          )}
         </div>
 
         {/* Description */}

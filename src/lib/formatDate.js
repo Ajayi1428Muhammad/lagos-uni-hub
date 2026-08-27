@@ -12,7 +12,7 @@
     const years = Math.trunc(months / 12);
 
   if (Math.abs(years) > 0) return `${years}y ago`;
-  if (Math.abs(months) > 0) return `${months}m ago`;
+  if (Math.abs(months) > 0) return `${months}mo ago`;
   if (Math.abs(weeks) > 0) return `${weeks}w ago`;
   if (Math.abs(days) > 0) return `${days}d ago`;
   if (Math.abs(hrs) > 0) return `${hrs}h ago`;
