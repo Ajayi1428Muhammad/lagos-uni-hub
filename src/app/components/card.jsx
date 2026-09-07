@@ -1,3 +1,4 @@
+"use client"
 import {
   PhotoIcon,
   PlayIcon,
@@ -6,8 +7,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import getTime from "@/lib/formatDate";
+import { useCartStore } from "@/store/useCartStore";
 
 const Card = ({ listing = {}, title, description, price, isFeatured }) => {
+  const increaseQuantity = useCartStore((state) => state.increaseQuantity); 
   const displayTitle = title ?? listing.title ?? "Untitled";
   const displayDescription = description ?? listing.description ?? "";
   const displayPrice = price ?? listing.price ?? null;
@@ -23,6 +26,12 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
     const n = Number(val);
     if (Number.isNaN(n)) return val;
     return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0, notation: "compact" })}`;
+  };
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    increaseQuantity(listing);
   };
   return (
     <div className="break-inside-avoid mb-3 bg-white rounded-xl border border-slate-100 shadow-lg overflow-hidden transition-transform duration-700 hover:scale-102 cursor-pointer">
@@ -91,7 +100,9 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
           </span>
           <span className="text-xs text-slate-500">{timestamp}</span>
           </div>
-          <button className="p-2.5 text-right items-end rounded-xl text-slate-500 bg-slate-100 transition-colors hover:bg-slate-200 cursor-pointer">
+          <button className="p-2.5 text-right items-end rounded-xl text-slate-500 bg-slate-100 transition-colors hover:bg-slate-200 cursor-pointer"
+          onClick={handleAddToCart}
+          >
             <ShoppingCartIcon className="h-2.5 w-2.5 ms:w-4.5 ms:h-4.5 stroke-2 shadow-inner" />
           </button>
         </div>

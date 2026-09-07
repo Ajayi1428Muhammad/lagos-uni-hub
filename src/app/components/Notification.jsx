@@ -1,27 +1,20 @@
 import {useState , useEffect} from "react"
-import { BellIcon } from "@heroicons/react/24/outline";
+import {ShoppingCartIcon} from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const NotificationIcon = () => {
-  const [clicked, setClicked] = useState(false);
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
-  useEffect( () => {
-    if(clicked){
-      document.body.style.overflow = "hidden"
-    } else{
-      document.body.style.overflow = "unset"
-    }
-    return () => {
-      document.body.style.overflow = "unset"
-    }
-  }, [clicked])
+  const router = useRouter();
+  const handleCartPush = () => {
+    router.push("/cart")
+  }
+
   return (
     <button
-      aria-label="Notifications"
+      aria-label="Cart"
       className="relative rounded p-1.5 hover:bg-gray-100 ms:p-2 cursor-pointer"
+      onClick={handleCartPush}
     >
-      <BellIcon className="h-5 w-5 text-gray-600 ms:h-6 ms:w-6" />
+      <ShoppingCartIcon className="h-5 w-5 text-gray-600 ms:h-6 ms:w-6" />
       <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-red-500 ms:h-2 ms:w-2 " />
     </button>
   );
