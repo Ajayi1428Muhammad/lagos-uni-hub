@@ -2,8 +2,8 @@ import { div } from "framer-motion/client"
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
-import ProfileTabs from "@/app/components/profileTab";
-import UserProfile from "@/app/components/userProfile";
+import ProfileTabs from "@/app/components/dashboard/profileTab";
+import UserProfile from "@/app/components/dashboard/userProfile";
 
 const Dashboard = async () => {
   const session = await auth();

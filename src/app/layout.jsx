@@ -31,13 +31,17 @@ export default async function RootLayout({ children }) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full  flex flex-col bg-gray-50 ">
+      <body className=" flex flex-col bg-gray-50 ">
         {/* <AuthProvider> */}
+        <div className="shrink-0">
           <Navbar session={session} />
+        </div>
           <ToastProvider />
-          <main className="flex-1 px-4 pt-16 pb-24">{children}</main>
+          <main className="flex-1 px-4 pt-16 pb-24 min-h-0 overflow-y-auto">{children}</main>
           <Floating />
+        <div className="shrink-0">
           <Footer />
+          </div>
         {/* </AuthProvider> */}
       </body>
     </html>

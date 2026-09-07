@@ -36,7 +36,7 @@ const Navbar = ({session}) => {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="fixed z-50 flex h-16 w-full items-center gap-2  border-b border-gray-200 bg-white px-2 ms:h-16 ms:px-4"
+      className="fixed z-50 flex h-16 w-full items-center gap-2  border-b border-gray-200 bg-white px-2 ms:h-16 ms:px-4 shrink-0"
     >
       {/* Left: Logo and Menu */}
       <div className="flex shrink-0 items-center gap-1 ms:gap-3">

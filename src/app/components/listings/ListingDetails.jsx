@@ -1,14 +1,20 @@
-"use client"
-import React, { useState, useRef, useEffect } from 'react'
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import {ArrowRightIcon, ChevronRightIcon, ShoppingCartIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
-import StarIconComponent from '@/app/listings/[id]/StarIcon';
-import { button } from 'framer-motion/client';
-import getTime from '@/lib/formatDate';
-import ActionBar from '@/app/components/ActionBar';
+import {
+  ArrowRightIcon,
+  ChevronRightIcon,
+  ShoppingCartIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/24/solid";
+import StarIconComponent from "@/app/listings/[id]/StarIcon";
+import { button } from "framer-motion/client";
+import getTime from "@/lib/formatDate";
 
 
 const ListingDetails = ({ listing, isSeller }) => {
+  const stock = listing.stock ?? 1; 
   const description = listing.description ?? "No description available";
   const title = listing.title ?? "No title available";
   const price = listing.price ?? 0;
@@ -17,16 +23,16 @@ const ListingDetails = ({ listing, isSeller }) => {
   const location = listing.pickupLocation ?? "Unknown Location";
   const timestamp = getTime(timeCreated);
   const deliveryCharge = price > 100000 ? 500 : 200;
-  const options = { month: "short", day:"numeric", year:"numeric",};
+  const options = { month: "short", day: "numeric", year: "numeric" };
   const timeTest = new Date(timeCreated).toLocaleString();
 
   const formatPrice = (val) => {
     if (!val && val !== 0) return "";
     const n = Number(val);
     if (Number.isNaN(n)) return val;
-    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0})}`;
+    return `${n.toLocaleString("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0 })}`;
   };
-  const [isOpen, setIsOpen] =useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("Choose a location");
   const locations = [
     "Arcade",
@@ -34,16 +40,16 @@ const ListingDetails = ({ listing, isSeller }) => {
     "Library",
     "Cafeteria",
   ];
-  const dropdownRef = useRef(null)
-  useEffect(()=>{
+  const dropdownRef = useRef(null);
+  useEffect(() => {
     const handleClickOutside = (event) => {
-      if(dropdownRef.current && !dropdownRef.current.contains(event.target))
-        {setIsOpen(false)}
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return ()=> document.removeEventListener("mousedown", handleClickOutside) 
-    
-  },[])
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div>
@@ -60,7 +66,7 @@ const ListingDetails = ({ listing, isSeller }) => {
           <div className="text-xs text-slate-600 ">{timestamp}</div>
         </div>
         <div className="text-lg font-bold">{formatPrice(price)}</div>
-        <div className="text-sm text-slate-600">0 Units left</div>
+        <div className="text-sm text-slate-600">{stock} Units left</div>
         <div className="flex flex-col  gap-1 mt-2 mb-4">
           <p>Reviews:</p>
           <StarIconComponent />
@@ -107,6 +113,6 @@ const ListingDetails = ({ listing, isSeller }) => {
       {/* <ActionBar isSeller={isSeller} /> */}
     </div>
   );
-}
+};
 
-export default ListingDetails
+export default ListingDetails;

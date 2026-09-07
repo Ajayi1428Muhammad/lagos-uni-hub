@@ -35,7 +35,7 @@ const Footer = () => {
   if(isDetailsPage) return null;
 
   return (
-    <footer className="flex fixed bottom-0 h-17 items-center justify-between border-t border-green-200 w-full bg-white mx-auto px-4 ">
+    <footer className="flex fixed bottom-0 h-17 items-center justify-between border-t border-green-200 w-full bg-white mx-auto px-4 shrink-0">
       
       {items.map(({ label, href, icon: Icon }) => {
         const active = isActive(href);

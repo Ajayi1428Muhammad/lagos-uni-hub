@@ -3,6 +3,7 @@ import { ArrowRightIcon, MinusIcon, PlusIcon, ShoppingCartIcon } from '@heroicon
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/useCartStore';
+import Stepper from '@/app/listings/[id]/Stepper';
 
 const ActionBar = ({ listing, isSeller }) => {
   const router = useRouter();
@@ -10,7 +11,6 @@ const ActionBar = ({ listing, isSeller }) => {
     router.push("/cart")
   }
 
-  // const getItemQuantity = useCartStore((state) => state.getItemQuantity) 
   const quantity = useCartStore(
     (state) =>
       state.cart.find((item) => item.id === listing?.id)?.quantity || 0,
@@ -46,7 +46,10 @@ const ActionBar = ({ listing, isSeller }) => {
           </button>
         ) : (
           <div className="flex gap-3 justify-between items-center w-full max-w-180 mx-auto">
-            <div className="flex items-center justify-between bg-slate-100 rounded-3xl p-1 border border-black w-1/3">
+            <div className="bg-slate-100 rounded-3xl p-1 border border-black w-1/3">
+            <Stepper onIncrease={() => increaseQuantity(listing)} onDecrease={() => decreaseQuantity(listing.id)} quantity={quantity} />
+              </div>
+            {/* <div className="flex items-center justify-between bg-slate-100 rounded-3xl p-1 border border-black w-1/3">
               <button
                 type="button"
                 onClick={() => decreaseQuantity(listing.id)}
@@ -66,7 +69,7 @@ const ActionBar = ({ listing, isSeller }) => {
               >
                 <PlusIcon className="h-4 w-4" />
               </button>
-            </div>
+            </div> */}
 
             {/* Buy Now / Proceed to Checkout */}
             <button

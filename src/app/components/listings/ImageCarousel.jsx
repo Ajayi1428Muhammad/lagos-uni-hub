@@ -151,7 +151,7 @@ const ImageCarousel = ({ listing, isSeller }) => {
             ) : (
               <Image
                 src={item.url}
-                alt="Profile"
+                alt="Product"
                 width={400}
                 height={250}
                 className="object-contain"
