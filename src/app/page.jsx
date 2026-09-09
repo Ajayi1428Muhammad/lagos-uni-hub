@@ -7,6 +7,7 @@ import Link from "next/link";
 import pg from "pg";
 
 
+
 export const dynamic = "force-dynamic";
 
 const { Pool } = pg;
@@ -91,6 +92,7 @@ export default async function Page({ searchParams }) {
   const isFilteringByCategory = category.length > 0;
   const isFilteringByUniversity = university.length > 0;
 
+  const id = session?.user?.id ?? null;
   let gridListings = [];
   let scrollListings = [];
 
@@ -103,6 +105,9 @@ export default async function Page({ searchParams }) {
     try {
       listings = await prisma.listings.findMany({
         where: {
+          ...(id && {
+             userId: { not: id }
+     }),
           AND: [
             isFilteringByCategory ? { category } : {},
             isFilteringByUniversity ? { university } : {},

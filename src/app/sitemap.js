@@ -1,7 +1,7 @@
 import React from 'react'
 
 const sitemap = () => {
-    const baseUrl = "https://luhub.vercel.app";
+    const baseUrl = "https://luhub.tech";
     const routes = [
       "",
       "/sell",

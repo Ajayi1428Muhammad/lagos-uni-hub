@@ -41,7 +41,7 @@ const CartItem = ({ item, isFirst }) => {
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">
         <div className="flex items-start justify-between gap-3 w-full">
           <Link href={`/listings/${item.id}`} className="min-w-0 flex-1">
-            <div className="text-sm font-semibold text-slate-900 leading-tight line-clamp-2 cursor-pointer sm:text-lg">
+            <div className="text-sm font-semibold leading-tight line-clamp-2 text-emerald-700 cursor-pointer sm:text-lg">
               {item.title} {item.description}
             </div>
           </Link>
@@ -56,7 +56,7 @@ const CartItem = ({ item, isFirst }) => {
         </div>
 
         <div className="flex items-center justify-between gap-3 w-full">
-          <div className="text-sm font-medium text-slate-800 sm:text-base">
+          <div className="text-sm font-medium text-emerald-700 sm:text-base">
             {formatPrice(item.price)}
           </div>
 

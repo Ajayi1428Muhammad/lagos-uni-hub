@@ -2,14 +2,19 @@
 import {
   PhotoIcon,
   PlayIcon,
-  ShoppingCartIcon,
-  VideoCameraIcon,
+  ShoppingCartIcon, CheckIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import getTime from "@/lib/formatDate";
 import { useCartStore } from "@/store/useCartStore";
+import { usePathname } from "next/navigation";
+
 
 const Card = ({ listing = {}, title, description, price, isFeatured }) => {
+  const pathname = usePathname();
+  const isDashboardPage = pathname.startsWith("/dashboard");
+
   const increaseQuantity = useCartStore((state) => state.increaseQuantity); 
   const displayTitle = title ?? listing.title ?? "Untitled";
   const displayDescription = description ?? listing.description ?? "";
@@ -33,6 +38,8 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
 
     increaseQuantity(listing);
   };
+
+
   return (
     <div className="break-inside-avoid mb-3 bg-white rounded-xl border border-slate-100 shadow-lg overflow-hidden transition-transform duration-700 hover:scale-102 cursor-pointer">
       {/* --- Image Section --- */}
@@ -95,16 +102,25 @@ const Card = ({ listing = {}, title, description, price, isFeatured }) => {
         </div>
         <div className="flex justify-between pt-2 flex-wrap">
           <div className="flex flex-col">
-          <span className="text-[#059669] font-black text-sm ms:text-base whitespace-nowrap">
-            {formatPrice(displayPrice) || "Price not set"}
-          </span>
-          <span className="text-xs text-slate-500">{timestamp}</span>
+            <span className="text-[#059669] font-black text-sm ms:text-base whitespace-nowrap">
+              {formatPrice(displayPrice) || "Price not set"}
+            </span>
+            <span className="text-xs text-slate-500">{timestamp}</span>
           </div>
-          <button className="p-2.5 text-right items-end rounded-xl text-slate-500 bg-slate-100 transition-colors hover:bg-slate-200 cursor-pointer"
-          onClick={handleAddToCart}
-          >
-            <ShoppingCartIcon className="h-2.5 w-2.5 ms:w-4.5 ms:h-4.5 stroke-2 shadow-inner" />
-          </button>
+          {isDashboardPage ? (
+            <button
+              className="p-2.5 text-right items-end rounded-xl text-slate-500 bg-slate-100 transition-colors hover:bg-slate-200 cursor-pointer"
+            >
+            <PencilIcon className="h-2.5 w-2.5 ms:w-4.5 ms:h-4.5 stroke-2 shadow-inner" />
+            </button>
+          ) : (
+            <button
+              className="p-2.5 text-right items-end rounded-xl text-slate-500 bg-slate-100 transition-colors hover:bg-slate-200 cursor-pointer"
+              onClick={handleAddToCart}
+            >
+              <ShoppingCartIcon className="h-2.5 w-2.5 ms:w-4.5 ms:h-4.5 stroke-2 shadow-inner" />
+            </button>
+          )}
         </div>
 
         {/* Action Buttons */}

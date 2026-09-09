@@ -18,12 +18,14 @@ const ProfileIcon = () => {
     }
   }, [clicked])
   return (
+    <Link href={"/dashboard"}>
     <button
       aria-label="Profile"
       className="rounded p-1.5 hover:bg-gray-100 ms:p-2 cursor-pointer"
     >
         <UserCircleIcon className="h-5 w-5 text-gray-600 ms:h-6 ms:w-6 " />
     </button>
+    </Link>
   );
 };
 

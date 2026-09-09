@@ -5,7 +5,7 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import Bar from "@/app/components/bar";
 import Logo from "@/app/components/Logo";
 import SearchBar from "@/app/components/SearchBar";
-import NotificationIcon from "@/app/components/Notification";
+import NotificationIcon from "@/app/components/Cart";
 import ProfileIcon from "./components/Profile";
 import Link from "next/link";
 import {useRouter} from "next/navigation"
