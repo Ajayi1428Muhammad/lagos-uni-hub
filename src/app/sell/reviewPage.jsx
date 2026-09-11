@@ -232,8 +232,9 @@ const ReviewPostStep = ({
 
         <button
           type="button"
+          disabled
           onClick={handleSaveDraftClick}
-          className="flex w-full items-center justify-center mx-auto max-w-md gap-3 rounded-2xl border border-emerald-600 bg-white px-5 py-4 text-base font-bold text-emerald-700 transition-all duration-200 cursor-pointer hover:bg-emerald-50 active:scale-[0.99]"
+          className="flex w-full items-center justify-center mx-auto max-w-md gap-3 rounded-2xl border border-emerald-600 bg-gray-200 px-5 py-4 text-base font-bold text-emerald-700 transition-all duration-200 cursor-not-allowed hover:bg-emerald-50 "
         >
             <span>Save as Draft</span>
         </button>

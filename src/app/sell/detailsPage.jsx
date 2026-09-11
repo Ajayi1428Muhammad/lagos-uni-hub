@@ -303,7 +303,7 @@ const CreateListing = ({
               placeholder="0.00"
               value={listing.price ?? ""}
               onChange={(event) => onChange({ price: event.target.value })}
-              className={`w-full rounded-2xl pl-10 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
+              className={`w-full rounded-2xl ms:rounded-xl pl-10 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
                 ${
                   errors?.price
                     ? "border border-red-500 focus:ring-1 focus:ring-red-500"
@@ -329,7 +329,7 @@ const CreateListing = ({
               placeholder="0.00"
               value={listing.stock ?? ""}
               onChange={(event) => onChange({ stock: event.target.value })}
-              className={`w-full rounded-2xl pl-5 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
+              className={`w-full rounded-2xl ms:rounded-xl pl-5 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-sm
                 ${
                   errors?.stock
                     ? "border border-red-500 focus:ring-1 focus:ring-red-500"

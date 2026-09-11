@@ -69,9 +69,15 @@ export default function ProfileTabs({ listings }) {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                 {photoListings.map((listing) => (
-                  <Link key={listing.id} href={`/listings/${listing.id}`}>
-                    <Card listing={listing} />
-                  </Link>
+                  <div key={listing.id} className="relative">
+                    <Link
+                      href={`/listings/${listing.id}`}
+                      className="absolute z-0 inset-0"
+                    />
+                    <div className="relative z-20 pointer-events-none">
+                      <Card listing={listing} />
+                    </div>
+                  </div>
                 ))}
               </div>
             )}

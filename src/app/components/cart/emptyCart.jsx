@@ -9,7 +9,7 @@ const EmptyCart = () => {
     router.push("/");
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-4 ">
+    <div className="flex flex-col items-center gap-4 ">
       <ShoppingCartIcon className="h-32 w-32 text-emerald-700" />
       <p className="text-slate-500 font-bold">Your cart is empty!</p>
       <p className="text-xl">
