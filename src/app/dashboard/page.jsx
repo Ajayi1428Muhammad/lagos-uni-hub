@@ -1,4 +1,4 @@
-import { div } from "framer-motion/client"
+import { div } from "framer-motion/client";
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
@@ -7,17 +7,17 @@ import UserProfile from "@/app/components/dashboard/userProfile";
 
 const Dashboard = async () => {
   const session = await auth();
-  if(!session){
-    redirect("/signin?callbackUrl=/dashboard")
+  if (!session) {
+    redirect("/signin?callbackUrl=/dashboard");
   }
   const userListings = await prisma.listings.findMany({
     where: { userId: session.user.id },
     orderBy: { createdAt: "desc" },
   });
   const listingsCount = await prisma.listings.count({
-    where: { userId: session.user.id }
+    where: { userId: session.user.id },
   });
-  
+
   return (
     <div className="w-[80%] mx-auto mt-6 ">
       <UserProfile user={session.user} listingsCount={listingsCount} />
@@ -40,6 +40,6 @@ const Dashboard = async () => {
       </div>
     </div>
   );
-}
+};
 
-export default Dashboard
+export default Dashboard;

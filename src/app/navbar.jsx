@@ -41,7 +41,9 @@ const Navbar = ({session}) => {
       {/* Left: Logo and Menu */}
       <div className="flex shrink-0 items-center gap-1 ms:gap-3">
         <Bar />
+        <Link href={"/"}>
         <Logo />
+        </Link>
       </div>
 
       {/* Center: Search */}

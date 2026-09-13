@@ -29,22 +29,27 @@ const Floating = () => {
       className="fixed inset-0 pointer-events-none z-30"
     >
       {isDetailsPage ? (
-        <motion.button
-          drag
-          dragConstraints={constraintsRef}
-          dragElastic={0.1}
-          dragMomentum={false}
-          className="fixed bottom-24 right-6 z-40 bg-amber-400 p-4 rounded-full 
+        <div className="relative">
+          <motion.button
+            drag
+            dragConstraints={constraintsRef}
+            dragElastic={0.1}
+            dragMomentum={false}
+            className="fixed  bottom-24 right-6 z-40 bg-amber-400 p-4 rounded-full 
               active:scale-95 transition-all pointer-events-auto
              shadow-[0_15px_30px_-5px_rgba(251,191,36,0.5)] 
              border-t border-white/40 backdrop-blur-sm cursor-pointer "
-          onClick={(e) => {
-            e.preventDefault();
-            handleCartClick();
-          }}
-        >
-          <ShoppingCartIcon className="h-5 w-5 text-slate-900 stroke-3" />
-        </motion.button>
+            onClick={(e) => {
+              e.preventDefault();
+              handleCartClick();
+            }}
+          >
+            <span className="absolute top-0 right-0 text-slate-200 font-bold bg-amber-400 border-2 border-white rounded-full h-6 w-6 p-1 flex items-center justify-center ">
+              {quantity}
+            </span>
+            <ShoppingCartIcon className="h-5 w-5 text-slate-900 stroke-3" />
+          </motion.button>
+        </div>
       ) : (
         <motion.button
           drag

@@ -31,6 +31,8 @@ const Footer = () => {
 
     return pathname === href || pathname.startsWith(`${href}/`);
   };
+  const isDashboardPage = pathname.startsWith("/dashboard");
+  if (isDashboardPage) return null;
   const isDetailsPage = /^\/listings\/[^\/]+$/.test(pathname)
   if(isDetailsPage) return null;
 

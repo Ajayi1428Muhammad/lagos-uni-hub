@@ -1,27 +1,30 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Card from "@/app/components/card";
 import { Grid, Bookmark, Contact2, PlaySquare } from "lucide-react";
-import Link from "next/link"
+import Link from "next/link";
+import EditListingModal from "@/app/components/dashboard/editListingModal";
 import { div } from "framer-motion/client";
 
 export default function ProfileTabs({ listings }) {
-   const [activeTab, setActiveTab] = useState("listings");
-   const tabs = [
-     { id: "listings", label: "Your listings", icon: Grid },
-     { id: "video", label: "Video", icon: PlaySquare },
-     { id: "savedItem", label: "Saved items", icon: Bookmark },
-     { id: "notifications", label: "notifications", icon: Contact2 },
-   ];
+  const [editingListing, setEditingListing] = useState(null);
+  // const
+  const [activeTab, setActiveTab] = useState("listings");
+  const tabs = [
+    { id: "listings", label: "Your listings", icon: Grid },
+    { id: "video", label: "Video", icon: PlaySquare },
+    { id: "savedItem", label: "Saved items", icon: Bookmark },
+    { id: "notifications", label: "notifications", icon: Contact2 },
+  ];
 
-   const isVideoItem = (item) =>{
-    if(item.type === "video" || item.resourceType === "video") return true;
+  const isVideoItem = (item) => {
+    if (item.type === "video" || item.resourceType === "video") return true;
     const firstUrl = item.mediaUrls?.[0] || "";
     return /\.(mp4|webm|mov|mkv|avi)($|\?)/i.test(firstUrl);
-   }
+  };
 
-   const photoListings = listings.filter( item => !isVideoItem(item)); 
-   const videoListings = listings.filter( item => isVideoItem(item));
+  const photoListings = listings.filter((item) => !isVideoItem(item));
+  const videoListings = listings.filter((item) => isVideoItem(item));
 
   return (
     <div className="w-full">
@@ -75,11 +78,24 @@ export default function ProfileTabs({ listings }) {
                       className="absolute z-0 inset-0"
                     />
                     <div className="relative z-20 pointer-events-none">
-                      <Card listing={listing} />
+                      <Card
+                        listing={listing}
+                        onEdit={(currentListing) =>
+                          setEditingListing(currentListing)
+                        }
+                      />
                     </div>
                   </div>
                 ))}
               </div>
+            )}
+            {editingListing && (
+              <EditListingModal
+                onClose={() => {
+                  setEditingListing(null);
+                }}
+                listing={editingListing}
+              />
             )}
           </div>
         )}
@@ -94,9 +110,24 @@ export default function ProfileTabs({ listings }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
                 {videoListings.map((listing) => (
                   <Link key={listing.id} href={`/listings/${listing.id}`}>
-                    <Card listing={listing} />
+                    <Card
+                      listing={listing}
+                      onEdit={(currentListing) =>
+                        setEditingListing(currentListing)
+                      }
+                    />
                   </Link>
                 ))}
+              </div>
+            )}
+            {editingListing && (
+              <div className="relative">
+                <EditListingModal
+                  onClose={() => {
+                    setEditingListing(null);
+                  }}
+                  listing={editingListing}
+                />
               </div>
             )}
           </div>

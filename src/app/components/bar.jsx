@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Bars3Icon,
-  Bars2Icon,
   XMarkIcon,
   TagIcon,
 } from "@heroicons/react/24/outline";
@@ -37,7 +36,7 @@ const Bar = () => {
     <div>
       <div
         aria-label="Menu"
-        className="relative z-110 rounded p-1.5 hover:bg-gray-100 ms:p-2"
+        className="relative z-110 rounded p-1.5 hover:bg-gray-100 ms:p-2 transition-colors"
       >
         <motion.div
           key={clicked ? "open" : "closed"}

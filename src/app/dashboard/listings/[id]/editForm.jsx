@@ -35,6 +35,7 @@ const EditForm = ( { listing } ) => {
         }
         redirect("/dashboard")
     }
+    
     return (
       <div className="bg-slate-200 p-4 mt-2 rounded-xl">
         <h2 className="text-emerald-600 font-bold mb-3 ">
@@ -52,7 +53,7 @@ const EditForm = ( { listing } ) => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-lg border border-slate-400 ring-emerald-500"
+              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none border border-slate-400 ring-emerald-500"
             />
           </div>
           {/* Price */}
@@ -65,7 +66,7 @@ const EditForm = ( { listing } ) => {
               name="price"
               value={formData.price}
               onChange={handleChange}
-              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-lg border border-slate-400 ring-emerald-500"
+              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none border border-slate-400 ring-emerald-500"
             />
           </div>
           {/* Stock */}
@@ -78,7 +79,7 @@ const EditForm = ( { listing } ) => {
               name="stock"
               value={formData.stock}
               onChange={handleChange}
-              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-lg border border-slate-400 ring-emerald-500"
+              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none border border-slate-400 ring-emerald-500"
             />
           </div>
           {/* Description */}
@@ -91,7 +92,7 @@ const EditForm = ( { listing } ) => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none shadow-lg border border-slate-400 ring-emerald-500"
+              className="w-full rounded-2xl pl-3 pr-5 py-2 ms:py-4 text-xs ms:text-sm font-bold focus:ring-2 outline-none border border-slate-400 ring-emerald-500"
             />
           </div>
         </div>
@@ -99,7 +100,7 @@ const EditForm = ( { listing } ) => {
           <button
             type="submit"
             onClick={handleSave}
-            className="flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-5 py-4 mx-auto text-base font-bold text-white shadow-lg shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 active:scale-[0.99] max-w-md cursor-pointer"
+            className="flex w-full items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-5 py-4 mx-auto text-base font-bold text-white shadow-emerald-200 transition-all duration-200 hover:bg-emerald-700 active:scale-[0.99] max-w-md cursor-pointer"
           >
             {isLoading ? (
               <>
