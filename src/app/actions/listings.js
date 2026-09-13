@@ -1,28 +1,8 @@
 "use server";
-
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
-// const normalizeListingData = (listing = {}) => ({
-//   title: listing.title?.trim() || "Untitled listing",
-//   price: Number(listing.price) || 0,
-//   description: listing.description?.trim() || "",
-//   university: listing.university?.trim() || "",
-//   pickupLocation: listing.pickupOption?.trim() || "",
-//   campusRunner: listing.campusRunner?.trim() || "",
-//   category: listing.category?.trim() || "Uncategorized",
-//   mediaUrls: Array.isArray(listing.mediaItems)
-//     ? listing.mediaItems
-//         .map((item) => item?.url)
-//         .filter(
-//           (url) =>
-//             typeof url === "string" &&
-//             (url.startsWith("http://") || url.startsWith("https://")),
-//         )
-//     : [],
-//   stock: Number(listing.stock) || 1,
-// });
 const normalizeListingData = (listing = {}) => {
   const data = {};
 
@@ -113,6 +93,7 @@ export async function editListing(listing = {}) {
     where: { id: listing.id },
     data
   })
+
 }
 
 export async function saveDraft(listing = {}) {

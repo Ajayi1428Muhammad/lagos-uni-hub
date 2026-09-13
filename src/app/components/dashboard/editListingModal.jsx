@@ -2,10 +2,12 @@
 import React from "react"
 import { editListing } from "@/app/actions/listings";
 import { toast } from "react-toastify";
-import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const EditListingModal = ( { listing, onClose }  ) =>{
-      const [isLoading, setIsLoading] = React.useState(false)
+    const router =useRouter() 
+    const [isLoading, setIsLoading] = React.useState(false)
         const [formData, setFormData] = React.useState({
             id: listing.id,
             title: listing.title,
@@ -33,6 +35,7 @@ const EditListingModal = ( { listing, onClose }  ) =>{
             finally {
                 setIsLoading(false)
             }
+            router.refresh()
             onClose()
         }
         window.addEventListener("keydown", (e) => {
