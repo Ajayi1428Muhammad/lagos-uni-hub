@@ -67,7 +67,8 @@ export default function ProfileTabs({ listings }) {
           <div id="listings">
             {photoListings.length === 0 ? (
               <div className="text-center py-12 text-gray-400 text-sm">
-                You haven't posted any items yet.
+                You haven't posted any items yet.{" "}
+                <a href="/sell">Create your first</a>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">
@@ -104,7 +105,8 @@ export default function ProfileTabs({ listings }) {
           <div id="video">
             {videoListings.length === 0 ? (
               <div className="text-center py-12 text-gray-400 text-sm">
-                You haven't posted any videos yet.
+                You haven't posted any videos yet.{" "}
+                <a href="/sell">Create your first</a>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2">

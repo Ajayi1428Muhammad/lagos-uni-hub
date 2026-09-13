@@ -15,6 +15,7 @@ const Floating = () => {
 
   if (pathname === "/sell" || pathname === "/sell/") return null;
   if (pathname === "/cart" || pathname === "/cart/") return null;
+  if (pathname === "/dashboard" || pathname === "/dashboard/") return null;
   const isDetailsPage = /^\/listings\/[^\/]+$/.test(pathname);
   // if (isDetailsPage) return null;
   const handleSellClick = () => {
